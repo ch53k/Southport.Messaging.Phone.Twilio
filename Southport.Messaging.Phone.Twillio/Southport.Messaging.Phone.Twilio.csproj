@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Version>1.0.0-alpha1</Version>
+    <Authors>Robert Anstett</Authors>
+    <Company>Southport Solutions, LLC</Company>
+    <Description>Simplified Twilio API library</Description>
+    <Copyright>2021</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ch53k/Southport.Messaging.Phone.Twilio</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ch53k/Southport.Messaging.Phone.Twilio</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>Twilio Southport</PackageTags>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Twilio" Version="5.52.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
