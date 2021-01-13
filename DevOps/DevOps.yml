@@ -12,10 +12,9 @@ pool:
 variables:
   buildConfiguration: 'Release'
 stages:
-- stage: Build
+- stage: Build & Test
   jobs:
   - job:
-    name: Build
 
     steps:    
 
@@ -32,7 +31,6 @@ stages:
         arguments: '--output $(Build.ArtifactStagingDirectory) --configuration Release'
 
   - job:
-    name: Tests
     steps:
 
     - task: DotNetCoreCLI@2
@@ -43,21 +41,26 @@ stages:
         arguments: '--configuration $(BuildConfiguration)'
 
   - job:
-  name: SaveArtifacts
-  steps:
+    steps:
 
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: Southport.Azure.Functions.Extensions
+        ArtifactName: 'Southport.Azure.Functions.Extensions'
+
 - stage: Deplyment
   jobs:
   - job:
-    name: Deplyment
     steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'Southport.Azure.Functions.Extensions'
+        targetPath: '$(Pipeline.Workspace)'
+        
     - task: NuGetCommand@2
       inputs:
         command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+        packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
         nuGetFeedType: 'external'
         publishFeedCredentials: 'nuget.org'
