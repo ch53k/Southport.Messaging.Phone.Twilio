@@ -14,7 +14,7 @@ variables:
 stages:
 - stage: Build_Test
   jobs:
-  - job:
+  - job: Build
 
     steps:    
 
@@ -30,7 +30,8 @@ stages:
         projects: '**/*.csproj'
         arguments: '--output $(Build.ArtifactStagingDirectory) --configuration Release'
 
-  - job:
+  - job: Test
+    dependsOn: Build
     steps:
 
     - task: DotNetCoreCLI@2
@@ -40,7 +41,8 @@ stages:
         projects: '**/*Test.csproj'
         arguments: '--configuration $(BuildConfiguration)'
 
-  - job:
+  - job: PublishArtifacts
+    dependsOn: Tests
     steps:
 
     - task: PublishBuildArtifacts@1
