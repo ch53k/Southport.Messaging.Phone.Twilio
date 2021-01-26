@@ -9,8 +9,11 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
 {
     public class TextMessage : TwilioClientBase, ITextMessage
     {
+        public TextMessage(HttpClient httpClient, ITwilioOptions options) : base(httpClient, options)
+        {
+        }
 
-        public TextMessage(HttpClient httpClient, ITwilioOptions twilioOptions) : base(httpClient, twilioOptions)
+        public TextMessage(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox) : base(httpClient, accountSid, apiKey, authToken, useSandbox)
         {
         }
 
@@ -23,11 +26,11 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
             }
             to = TwilioHelper.NormalizePhoneNumber(to);
 
-            if (IsSandboxed == false && string.IsNullOrWhiteSpace(from))
+            if (UseSandbox == false && string.IsNullOrWhiteSpace(from))
             {
                 throw new ArgumentException("From phone number cannot be null or empty.", nameof(from));
             }
-            from = IsSandboxed ? "+15005550006" : from;
+            from = UseSandbox ? "+15005550006" : from;
 
             var messageResponse = await MessageResource.CreateAsync(
                 new PhoneNumber(to),

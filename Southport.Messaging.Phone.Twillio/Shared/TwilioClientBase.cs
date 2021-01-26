@@ -6,31 +6,33 @@ namespace Southport.Messaging.Phone.Twilio.Shared
 {
     public abstract class TwilioClientBase
     {
-        protected readonly ITwilioOptions _twilioOptions;
         protected  readonly TwilioRestClient _innerClient;
 
-        public bool IsSandboxed => _twilioOptions.IsSandboxed;
+        public bool UseSandbox { get; }
 
-        protected TwilioClientBase(HttpClient httpClient, ITwilioOptions twilioOptions)
+        protected TwilioClientBase(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox)
         {
-            
-            _twilioOptions = twilioOptions;
+            UseSandbox = useSandbox;
 
-            if (IsSandboxed)
+            if (UseSandbox)
             {
                 _innerClient = new TwilioRestClient(
-                    twilioOptions.AccountSid,
-                    twilioOptions.AuthToken,
+                    accountSid,
+                    authToken,
                     httpClient: new SystemNetHttpClient(httpClient));
             }
             else
             {
                 _innerClient = new TwilioRestClient(
-                    twilioOptions.ApiKey,
-                    twilioOptions.AuthToken,
+                    apiKey,
+                    authToken,
                     httpClient: new SystemNetHttpClient(httpClient),
-                    accountSid: twilioOptions.AccountSid);
+                    accountSid: accountSid);
             }
+        }
+
+        protected TwilioClientBase(HttpClient httpClient, ITwilioOptions options) : this(httpClient, options.AccountSid, options.ApiKey, options.AuthToken, options.UseSandbox)
+        {
         }
     }
 }

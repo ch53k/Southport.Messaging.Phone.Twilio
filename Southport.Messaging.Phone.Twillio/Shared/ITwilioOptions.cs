@@ -5,6 +5,6 @@
         string AccountSid { get; set; }
         string ApiKey { get; set; }
         string AuthToken { get; set; }
-        bool IsSandboxed { get; set; }
+        bool UseSandbox { get; set; }
     }
 }

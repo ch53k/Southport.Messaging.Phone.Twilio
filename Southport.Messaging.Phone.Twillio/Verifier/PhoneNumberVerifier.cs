@@ -9,7 +9,11 @@ namespace Southport.Messaging.Phone.Twilio.Verifier
 {
     public class PhoneNumberVerifier : TwilioClientBase, IPhoneNumberVerifier
     {
-        public PhoneNumberVerifier(HttpClient httpClient, ITwilioOptions twilioOptions) : base(httpClient, twilioOptions)
+        public PhoneNumberVerifier(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox) : base(httpClient, accountSid, apiKey, authToken, useSandbox)
+        {
+        }
+
+        public PhoneNumberVerifier(HttpClient httpClient, ITwilioOptions options) : base(httpClient, options)
         {
         }
 
