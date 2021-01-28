@@ -6,5 +6,6 @@
         string ApiKey { get; set; }
         string AuthToken { get; set; }
         bool UseSandbox { get; set; }
+        string TestPhoneNumbers { get; set; }
     }
 }

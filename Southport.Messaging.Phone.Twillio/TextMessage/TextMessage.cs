@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Southport.Messaging.Phone.Twilio.Shared;
 using Southport.Messaging.Phone.Twilio.TextMessage.Response;
@@ -21,6 +22,11 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
 
         public async Task<ITextMessageResponse> SendAsync(string to, string message, string from, string messageServiceSid)
         {
+            if (TestPhoneNumbers.Any())
+            {
+                return await SendTestPhoneNumbersAsync(message, from, messageServiceSid);
+            }
+
             if (string.IsNullOrWhiteSpace(to))
             {
                 throw new ArgumentException("To phone number cannot be null or empty.", nameof(to));
@@ -39,6 +45,34 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
                 body: message,
                 messagingServiceSid: messageServiceSid,
                 client: _innerClient); // pass in the custom client
+
+            return (TextTextMessageResponse) messageResponse;
+        }
+
+        private async Task<ITextMessageResponse> SendTestPhoneNumbersAsync(string message, string from, string messageServiceSid)
+        {
+            TextTextMessageResponse messageResponse = null;
+            foreach (var phoneNumber in TestPhoneNumbers)
+            {
+                var to = TwilioHelper.NormalizePhoneNumber(phoneNumber);
+
+                if (UseSandbox == false && string.IsNullOrWhiteSpace(from))
+                {
+                    throw new ArgumentException("From phone number cannot be null or empty.", nameof(from));
+                }
+
+                from = UseSandbox ? "+15005550006" : from;
+
+                var twilioResponse = await MessageResource.CreateAsync(
+                    new PhoneNumber(to),
+                    @from: new PhoneNumber(from),
+                    body: message,
+                    messagingServiceSid: messageServiceSid,
+                    client: _innerClient); // pass in the custom client
+
+                messageResponse = (TextTextMessageResponse) twilioResponse;
+            }
+
 
             return (TextTextMessageResponse) messageResponse;
         }

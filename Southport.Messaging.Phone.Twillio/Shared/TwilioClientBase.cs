@@ -1,4 +1,5 @@
-﻿using Twilio.Clients;
+﻿using System.Collections.Generic;
+using Twilio.Clients;
 using Twilio.Http;
 using HttpClient = System.Net.Http.HttpClient;
 
@@ -9,10 +10,16 @@ namespace Southport.Messaging.Phone.Twilio.Shared
         protected  readonly TwilioRestClient _innerClient;
 
         public bool UseSandbox { get; }
+        public List<string> TestPhoneNumbers { get; } = new List<string>();
 
-        protected TwilioClientBase(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox)
+        protected TwilioClientBase(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox, string testPhoneNumber = null)
         {
             UseSandbox = useSandbox;
+
+            if (string.IsNullOrWhiteSpace(testPhoneNumber) == false)
+            {
+                TestPhoneNumbers.AddRange(testPhoneNumber.Split(','));
+            }
 
             if (UseSandbox)
             {
@@ -31,7 +38,7 @@ namespace Southport.Messaging.Phone.Twilio.Shared
             }
         }
 
-        protected TwilioClientBase(HttpClient httpClient, ITwilioOptions options) : this(httpClient, options.AccountSid, options.ApiKey, options.AuthToken, options.UseSandbox)
+        protected TwilioClientBase(HttpClient httpClient, ITwilioOptions options) : this(httpClient, options.AccountSid, options.ApiKey, options.AuthToken, options.UseSandbox, options.TestPhoneNumbers)
         {
         }
     }
