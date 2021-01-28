@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Southport.Messaging.Phone.Twilio.Shared;
+using Southport.Messaging.Phone.Twilio.TextMessage.Response;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 using HttpClient = System.Net.Http.HttpClient;
@@ -18,7 +19,7 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
         }
 
 
-        public async Task<MessageResource> SendAsync(string to, string message, string from, string messageServiceSid)
+        public async Task<ITextMessageResponse> SendAsync(string to, string message, string from, string messageServiceSid)
         {
             if (string.IsNullOrWhiteSpace(to))
             {
@@ -39,7 +40,7 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
                 messagingServiceSid: messageServiceSid,
                 client: _innerClient); // pass in the custom client
 
-            return messageResponse;
+            return (TextTextMessageResponse) messageResponse;
         }
 
 
