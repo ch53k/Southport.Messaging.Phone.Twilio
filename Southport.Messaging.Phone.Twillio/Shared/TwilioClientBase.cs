@@ -12,13 +12,13 @@ namespace Southport.Messaging.Phone.Twilio.Shared
         public bool UseSandbox { get; }
         public List<string> TestPhoneNumbers { get; } = new List<string>();
 
-        protected TwilioClientBase(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox, string testPhoneNumber = null)
+        protected TwilioClientBase(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox, string testPhoneNumbers = null)
         {
             UseSandbox = useSandbox;
 
-            if (string.IsNullOrWhiteSpace(testPhoneNumber) == false)
+            if (string.IsNullOrWhiteSpace(testPhoneNumbers) == false)
             {
-                TestPhoneNumbers.AddRange(testPhoneNumber.Split(','));
+                TestPhoneNumbers.AddRange(testPhoneNumbers.Split(','));
             }
 
             if (UseSandbox)
