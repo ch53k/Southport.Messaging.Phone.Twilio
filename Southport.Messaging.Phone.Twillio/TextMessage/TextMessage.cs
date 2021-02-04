@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Southport.Messaging.Phone.Twilio.Shared;
 using Southport.Messaging.Phone.Twilio.TextMessage.Response;
+using Twilio.Exceptions;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 using HttpClient = System.Net.Http.HttpClient;
@@ -20,7 +21,7 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
         }
 
 
-        public async Task<ITextMessageResponse> SendAsync(string to, string message, string from, string messageServiceSid)
+        public async Task<ITextMessageResponse> SendAsync(string to, string message, string from, string messageServiceSid = null)
         {
             if (TestPhoneNumbers.Any())
             {
@@ -33,25 +34,38 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
             }
             to = TwilioHelper.NormalizePhoneNumber(to);
 
+            
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
             if (UseSandbox == false && string.IsNullOrWhiteSpace(from))
             {
                 throw new ArgumentException("From phone number cannot be null or empty.", nameof(from));
             }
-            from = UseSandbox ? "+15005550006" : from;
 
-            var messageResponse = await MessageResource.CreateAsync(
-                new PhoneNumber(to),
-                @from: new PhoneNumber(from),
-                body: message,
-                messagingServiceSid: messageServiceSid,
-                client: _innerClient); // pass in the custom client
+            try
+            {
+                var messageResponse = await MessageResource.CreateAsync(
+                    new PhoneNumber(to),
+                    @from: new PhoneNumber(from),
+                    body: message,
+                    messagingServiceSid: messageServiceSid,
+                    client: _innerClient); // pass in the custom client
 
-            return (TextTextMessageResponse) messageResponse;
+                return (TextMessageResponse) messageResponse;
+            }
+            catch (ApiException e)
+            {
+                return TextMessageResponse.Failed(e.Message, e.MoreInfo, e.Code);
+            }
+
         }
 
-        private async Task<ITextMessageResponse> SendTestPhoneNumbersAsync(string message, string from, string messageServiceSid)
+        private async Task<ITextMessageResponse> SendTestPhoneNumbersAsync(string message, string from, string messageServiceSid = null)
         {
-            TextTextMessageResponse messageResponse = null;
+            TextMessageResponse messageResponse = null;
             foreach (var phoneNumber in TestPhoneNumbers)
             {
                 var to = TwilioHelper.NormalizePhoneNumber(phoneNumber);
@@ -70,11 +84,11 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
                     messagingServiceSid: messageServiceSid,
                     client: _innerClient); // pass in the custom client
 
-                messageResponse = (TextTextMessageResponse) twilioResponse;
+                messageResponse = (TextMessageResponse) twilioResponse;
             }
 
 
-            return (TextTextMessageResponse) messageResponse;
+            return (TextMessageResponse) messageResponse;
         }
 
 

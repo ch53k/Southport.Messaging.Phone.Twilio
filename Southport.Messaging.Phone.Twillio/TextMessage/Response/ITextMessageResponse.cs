@@ -29,9 +29,6 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage.Response
         /// <summary>The amount billed for the message</summary>
         string Price { get; }
 
-        /// <summary>The description of the error_code</summary>
-        string ErrorMessage { get; }
-
         /// <summary>
         /// The URI of the resource, relative to `https://api.twilio.com`
         /// </summary>
@@ -62,9 +59,6 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage.Response
         /// </summary>
         DateTime? DateCreated { get; }
 
-        /// <summary>The error code associated with the message</summary>
-        int? ErrorCode { get; }
-
         /// <summary>The currency in which price is measured</summary>
         string PriceUnit { get; }
 
@@ -75,5 +69,16 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage.Response
         /// A list of related resources identified by their relative URIs
         /// </summary>
         Dictionary<string, string> SubresourceUris { get; }
+
+        bool IsSuccessful { get; }
+
+        /// <summary>The description of the error_code</summary>
+        string ErrorMessage { get; }
+
+        /// <summary>The error code associated with the message</summary>
+        int? ErrorCode { get; }
+
+        string MoreInfo { get; }
+
     }
 }

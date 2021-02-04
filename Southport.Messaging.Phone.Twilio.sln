@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		DevOps\DevOps.yml = DevOps\DevOps.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Southport.Messaging.Phone.Twilio.Tests", "Southport.Messaging.Phone.Twilio.Tests\Southport.Messaging.Phone.Twilio.Tests.csproj", "{08480961-5EA2-411C-86D4-82DD96F74157}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{2CAF84C7-C634-4721-BD65-D627075B4C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CAF84C7-C634-4721-BD65-D627075B4C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CAF84C7-C634-4721-BD65-D627075B4C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08480961-5EA2-411C-86D4-82DD96F74157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08480961-5EA2-411C-86D4-82DD96F74157}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08480961-5EA2-411C-86D4-82DD96F74157}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08480961-5EA2-411C-86D4-82DD96F74157}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
