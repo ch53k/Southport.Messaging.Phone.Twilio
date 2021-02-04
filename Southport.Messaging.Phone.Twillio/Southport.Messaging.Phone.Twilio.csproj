@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.0.0-alpha5</Version>
+    <Version>1.0.0-alpha6</Version>
     <Authors>Robert Anstett</Authors>
     <Company>Southport Solutions, LLC</Company>
     <Description>Simplified Twilio API library</Description>
