@@ -1,0 +1,22 @@
+parameters:
+  deployYmlChildPath: Variables/deployDev.yml
+
+jobs:
+  - deployment: DeployAppPackage
+    pool:
+      vmImage: $(vmImage)
+    environment: '$(environment)'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            displayName: 'Download artifact'
+            artifact: '$(artifact)'
+
+          - task: NuGetCommand@2
+            inputs:
+              command: 'push'
+              packagesToPush: '$(Pipeline.Workspace)/$(downloadDirectory)/**/*.nupkg;!$(Pipeline.Workspace)/$(downloadDirectory)/**/*.symbols.nupkg'
+              nuGetFeedType: '$(nuGetFeedType)'
+              publishFeedCredentials: '$(publishFeedCredentials)'

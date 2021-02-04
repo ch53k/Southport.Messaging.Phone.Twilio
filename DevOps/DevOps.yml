@@ -1,59 +1,47 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
+# only trigger build through main or release branch
 trigger:
 - main
+- release/*
 
-pool:
-  vmImage: 'ubuntu-latest'
+name: $(MajorVersion).$(MinorVersion).$(Date:yy)$(DayOfYear)$(Rev:.r) 
 
 variables:
-  buildConfiguration: 'Release'
+  vmImage: 'ubuntu-latest'
+  projectName: 'Southport.Messaging.Phone.Twilio'
+
+#------------------------Build DEV------------------------------------------
 stages:
-- stage: Build_Test
+- stage: 'BuildDev'
+  displayName: 'Build - Dev'
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  variables:
+    buildConfiguration: 'Release'
+    artifactName: 'dev'
   jobs:
-  - job: Build
+  - template: DevOps/build.yml
 
-    steps:    
-
-    - task: NuGetToolInstaller@1
-      inputs:
-        versionSpec: '5.8.0'
-        checkLatest: true
-
-    - task: DotNetCoreCLI@2
-      name: Build
-      inputs:
-        command: 'build'
-        projects: '**/*.csproj'
-        arguments: '--output $(Build.ArtifactStagingDirectory) --configuration Release'
-
-    - task: DotNetCoreCLI@2
-      name: Tests
-      inputs:
-        command: 'test'
-        projects: '**/*Tests.csproj'
-        arguments: '--configuration $(BuildConfiguration)'
-
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'Southport.Azure.Functions.Extensions'
-
-- stage: Deployment
+#------------------------Build PROD------------------------------------------
+- stage: 'BuildProd'
+  displayName: 'Build - Prod'
+  dependsOn: []
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')
+  variables:
+    buildConfiguration: 'Release'
+    artifactName: 'prod'
   jobs:
-  - deployment: Nuget_Publish
-    environment: nuget-publish-approval
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-              
-          - task: NuGetCommand@2
-            inputs:
-              command: 'push'
-              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
-              nuGetFeedType: 'external'
-              publishFeedCredentials: 'nuget.org'
+  - template: DevOps/build.yml
+
+
+#------------------------Deploy PROD------------------------------------------
+- stage: 'DeployReleaseProd'
+  displayName: 'Deploy to prod (release)'
+  dependsOn: 'BuildProd'
+  condition: succeeded()
+  variables:
+    environment: 'nuget-publish'
+    artifact: prod
+    downloadDirectory: 'prod'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget.org'
+  jobs:
+  - template: DevOps/deploy.yml
