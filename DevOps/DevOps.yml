@@ -18,7 +18,7 @@ stages:
     buildConfiguration: 'Release'
     artifactName: 'dev'
   jobs:
-  - template: DevOps/build.yml
+  - template: build.yml
 
 #------------------------Build PROD------------------------------------------
 - stage: 'BuildProd'
@@ -29,7 +29,7 @@ stages:
     buildConfiguration: 'Release'
     artifactName: 'prod'
   jobs:
-  - template: DevOps/build.yml
+  - template: build.yml
 
 
 #------------------------Deploy PROD------------------------------------------
@@ -44,4 +44,4 @@ stages:
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget.org'
   jobs:
-  - template: DevOps/deploy.yml
+  - template: deploy.yml
