@@ -19,4 +19,4 @@ jobs:
               command: 'push'
               packagesToPush: '$(Pipeline.Workspace)/$(downloadDirectory)/**/*.nupkg;!$(Pipeline.Workspace)/$(downloadDirectory)/**/*.symbols.nupkg'
               nuGetFeedType: $(nuGetFeedType)
-              publishFeedCredentials: $(publishFeedCredentials)
+              publishFeedCredentials: nuget.org
