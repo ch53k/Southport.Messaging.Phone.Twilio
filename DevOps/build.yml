@@ -28,5 +28,5 @@ jobs:
         projects: '**/*Tests.csproj'
         arguments: '--configuration $(BuildConfiguration)'
 
-    - publish: '$(Build.ArtifactStagingDirectory)/**/*'
+    - publish: '$(Build.ArtifactStagingDirectory)/**/*.*'
       artifact: '$(artifactName)'
