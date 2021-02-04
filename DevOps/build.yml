@@ -8,6 +8,7 @@ jobs:
       displayName: 'Install NuGet'
 
     - task: DotNetCoreCLI@2
+      name: Restore - Nuget
       inputs:
         command: 'restore'
         projects: '**/*$(projectName).csproj'
@@ -28,5 +29,5 @@ jobs:
         projects: '**/*Tests.csproj'
         arguments: '--configuration $(BuildConfiguration)'
 
-    - publish: '$(Build.ArtifactStagingDirectory)/**/*.*'
+    - publish: $(Build.ArtifactStagingDirectory)/**/*.*
       artifact: '$(artifactName)'
