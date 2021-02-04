@@ -18,5 +18,5 @@ jobs:
             inputs:
               command: 'push'
               packagesToPush: '$(Pipeline.Workspace)/$(downloadDirectory)/**/*.nupkg;!$(Pipeline.Workspace)/$(downloadDirectory)/**/*.symbols.nupkg'
-              nuGetFeedType: '$(nuGetFeedType)'
-              publishFeedCredentials: '$(publishFeedCredentials)'
+              nuGetFeedType: $(nuGetFeedType)
+              publishFeedCredentials: $(publishFeedCredentials)
