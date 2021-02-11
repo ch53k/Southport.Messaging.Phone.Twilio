@@ -13,7 +13,7 @@ namespace Southport.Messaging.Phone.Twilio.Shared
         public bool UseSandbox { get; }
         public List<string> TestPhoneNumbers { get; } = new();
 
-        protected TwilioClientBase(HttpClient httpClient, string accountSid, string apiKey, string authToken, string messagingServiceSid, bool useSandbox, string testPhoneNumbers = null)
+        protected TwilioClientBase(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox, string messagingServiceSid = null, string testPhoneNumbers = null)
         {
             MessagingServiceSid = messagingServiceSid;
             UseSandbox = useSandbox;
@@ -40,7 +40,7 @@ namespace Southport.Messaging.Phone.Twilio.Shared
             }
         }
 
-        protected TwilioClientBase(HttpClient httpClient, ITwilioOptions options) : this(httpClient, options.AccountSid, options.ApiKey, options.AuthToken, options.MessagingServiceSid, options.UseSandbox, options.TestPhoneNumbers)
+        protected TwilioClientBase(HttpClient httpClient, ITwilioOptions options) : this(httpClient, options.AccountSid, options.ApiKey, options.AuthToken, options.UseSandbox, options.MessagingServiceSid, options.TestPhoneNumbers)
         {
         }
     }

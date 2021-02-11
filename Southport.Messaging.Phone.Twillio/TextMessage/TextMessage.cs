@@ -16,7 +16,7 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
         {
         }
 
-        public TextMessage(HttpClient httpClient, string accountSid, string apiKey, string authToken, string messagingServiceSid = null, bool useSandbox = false, string testPhoneNumbers = null) : base(httpClient, accountSid, apiKey, authToken, messagingServiceSid, useSandbox, testPhoneNumbers)
+        public TextMessage(HttpClient httpClient, string accountSid, string apiKey, string authToken, string messagingServiceSid = null, bool useSandbox = false, string testPhoneNumbers = null) : base(httpClient, accountSid, apiKey, authToken, useSandbox, messagingServiceSid, testPhoneNumbers)
         {
         }
 

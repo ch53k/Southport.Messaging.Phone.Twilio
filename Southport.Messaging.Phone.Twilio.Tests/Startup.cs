@@ -44,5 +44,6 @@ namespace Southport.Messaging.Phone.Twilio.Tests
         public string AuthToken { get; set; }
         public bool UseSandbox { get; set; }
         public string TestPhoneNumbers { get; set; }
+        public string MessagingServiceSid { get; set; }
     }
 }
