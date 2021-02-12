@@ -11,7 +11,7 @@ using HttpClient = System.Net.Http.HttpClient;
 
 namespace Southport.Messaging.Phone.Twilio.TextMessage
 {
-    public class TwilioTextMessage : TwilioClientBase, ITwilioMTextMessage
+    public class TwilioTextMessage : TwilioClientBase, ITwilioTextMessage
     {
         public TwilioTextMessage(HttpClient httpClient, ITwilioOptions options) : base(httpClient, options)
         {
@@ -35,25 +35,25 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
         public string To { get; set; }
         public string MessageServiceSid { get; set; }
         public string Message { get; set; }
-        public ITwilioMTextMessage SetFrom(string from)
+        public ITwilioTextMessage SetFrom(string from)
         {
             From = TwilioHelper.NormalizePhoneNumber(from);;
             return this;
         }
 
-        public ITwilioMTextMessage SetTo(string to)
+        public ITwilioTextMessage SetTo(string to)
         {
             To = TwilioHelper.NormalizePhoneNumber(to);
             return this;
         }
 
-        public ITwilioMTextMessage SetMessageServicesSid(string messageServiceSid)
+        public ITwilioTextMessage SetMessageServicesSid(string messageServiceSid)
         {
             MessageServiceSid = messageServiceSid;
             return this;
         }
 
-        public ITwilioMTextMessage SetMessage(string message)
+        public ITwilioTextMessage SetMessage(string message)
         {
             Message = message;
             return this;

@@ -11,7 +11,7 @@ namespace Southport.Messaging.Phone.Twilio.Tests.TextMessaging
     public class TextMessageTests
     {
         private readonly ITestOutputHelper _output;
-        private ITwilioMTextMessage TwilioTextMessage { get; }
+        private ITwilioTextMessage TwilioTextMessage { get; }
         public TextMessageTests(ITestOutputHelper output)
         {
             _output = output;
