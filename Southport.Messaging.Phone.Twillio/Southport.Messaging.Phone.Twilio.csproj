@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -14,12 +14,12 @@
     <RepositoryType>GIT</RepositoryType>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>Twilio Southport</PackageTags>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated packages</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Twilio" Version="5.52.1" />
+    <PackageReference Include="Twilio" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
