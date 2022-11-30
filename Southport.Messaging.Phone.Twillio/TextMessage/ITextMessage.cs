@@ -5,6 +5,15 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
 {
     public interface ITextMessage
     {
-        Task<ITextMessageResponse> SendAsync(string to, string message, string from, string messageServiceSid = null);
+        string From { get; set;  }
+        string To { get; set; }
+        string MessageServiceSid { get; set; }
+        string Message { get; set; }
+
+        ITextMessage SetFrom(string from);
+        ITextMessage SetTo (string to);
+        ITextMessage SetMessageServicesSid(string messageServiceSid);
+        ITextMessage SetMessage(string message);
+        Task<ITextMessageResponse> SendAsync();
     }
 }

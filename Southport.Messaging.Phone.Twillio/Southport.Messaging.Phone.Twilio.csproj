@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <Authors>Robert Anstett</Authors>
     <Company>Southport Solutions, LLC</Company>
-    <Description>Simplified Twilio API library</Description>
+    <Description>Normalized Text Message class to use a fluent API.</Description>
     <Copyright>2021</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ch53k/Southport.Messaging.Phone.Twilio</PackageProjectUrl>

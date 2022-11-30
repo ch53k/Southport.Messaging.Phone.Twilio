@@ -4,14 +4,17 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using Southport.Messaging.Phone.Twilio.TextMessage;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Southport.Messaging.Phone.Twilio.Tests.TextMessaging
 {
     public class TextMessageTests
     {
+        private readonly ITestOutputHelper _output;
         private ITextMessage TextMessage { get; }
-        public TextMessageTests()
+        public TextMessageTests(ITestOutputHelper output)
         {
+            _output = output;
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             var options = Startup.GetOptions();
 
@@ -19,6 +22,7 @@ namespace Southport.Messaging.Phone.Twilio.Tests.TextMessaging
             fixture.Register(()=> new HttpClient());
 
             TextMessage = fixture.Create<TextMessage.TextMessage>();
+            TextMessage.MessageServiceSid = null;
         }
 
         [Fact]
@@ -27,7 +31,12 @@ namespace Southport.Messaging.Phone.Twilio.Tests.TextMessaging
             var toNumber = "+15555551212";
             var fromNumber = "+15005550001";
             var message = "Testing";
-            var response = await TextMessage.SendAsync(toNumber, message, fromNumber);
+
+            var response = await TextMessage
+                .SetFrom(fromNumber)
+                .SetTo(toNumber)
+                .SetMessage(message)
+                .SendAsync();
 
             var expectedErrorCode = 21212;
 
@@ -43,7 +52,12 @@ namespace Southport.Messaging.Phone.Twilio.Tests.TextMessaging
             var toNumber = "+15155551212";
             var fromNumber = "+15005550006";
             var message = "Testing";
-            var response = await TextMessage.SendAsync(toNumber, message, fromNumber);
+
+            var response = await TextMessage
+                .SetFrom(fromNumber)
+                .SetTo(toNumber)
+                .SetMessage(message)
+                .SendAsync();
             
 
             Assert.True(response.IsSuccessful);
