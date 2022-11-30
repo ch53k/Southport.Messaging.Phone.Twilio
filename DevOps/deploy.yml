@@ -1,22 +1,24 @@
-parameters:
-  deployYmlChildPath: Variables/deployDev.yml
-
 jobs:
-  - deployment: DeployAppPackage
-    pool:
-      vmImage: $(vmImage)
-    environment: '$(environment)'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-            displayName: 'Download artifact'
-            artifact: '$(artifact)'
+- deployment: DeployAppPackage
+  pool:
+    vmImage: $(vmImage)
 
-          - task: NuGetCommand@2
-            inputs:
-              command: 'push'
-              packagesToPush: '$(Pipeline.Workspace)/$(downloadDirectory)/**/*.nupkg;!$(Pipeline.Workspace)/$(downloadDirectory)/**/*.symbols.nupkg'
-              nuGetFeedType: $(nuGetFeedType)
-              publishFeedCredentials: nuget.org
+  variables:
+  - template: ${{parameters.deployYmlChildPath}}
+  environment: ${{variables.environment}}
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - download: current
+          displayName: 'Download artifact'
+          artifact: $(artifactName)
+
+        - task: NuGetCommand@2
+          displayName: 'Push Nuget'
+          inputs:
+            command: 'push'
+            packagesToPush: '$(Pipeline.Workspace)/$(artifactName)/**/*.nupkg;!$(Pipeline.Workspace)/$(artifactName)/**/*.symbols.nupkg'
+            nuGetFeedType: ${{ variables.nugetFeedType }}
+            publishFeedCredentials: ${{ variables.publishFeedCredentials }}      
+            allowPackageConflicts: false
