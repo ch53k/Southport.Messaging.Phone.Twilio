@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.0.0-beta1</Version>
     <Authors>Robert Anstett</Authors>
     <Company>Southport Solutions, LLC</Company>
     <Description>Simplified Twilio API library</Description>
@@ -15,7 +14,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>Twilio Southport</PackageTags>
     <PackageReleaseNotes>Updated packages</PackageReleaseNotes>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
