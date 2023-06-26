@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Southport.Messaging.Phone.Core.Response;
+using Southport.Messaging.Phone.Core.Shared;
+using Southport.Messaging.Phone.Core.TextMessage;
 using Southport.Messaging.Phone.Twilio.Shared;
 using Southport.Messaging.Phone.Twilio.TextMessage.Response;
 using Twilio.Exceptions;
@@ -11,14 +14,14 @@ using HttpClient = System.Net.Http.HttpClient;
 
 namespace Southport.Messaging.Phone.Twilio.TextMessage
 {
-    public class TextMessage : TwilioClientBase, ITextMessage
+    public class TwilioTextMessage : TwilioClientBase, ITextMessage
     {
-        public TextMessage(HttpClient httpClient, ITwilioOptions options) : base(httpClient, options)
+        public TwilioTextMessage(HttpClient httpClient, ITwilioOptions options) : base(httpClient, options)
         {
             MessageServiceSid = options.MessagingServiceSid;
         }
 
-        public TextMessage(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox = false, string testPhoneNumbers = null) : base(httpClient, accountSid, apiKey, authToken, useSandbox, testPhoneNumbers)
+        public TwilioTextMessage(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox = false, string testPhoneNumbers = null) : base(httpClient, accountSid, apiKey, authToken, useSandbox, testPhoneNumbers)
         {
         }
 
@@ -37,13 +40,13 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
         public string Message { get; set; }
         public ITextMessage SetFrom(string from)
         {
-            From = TwilioHelper.NormalizePhoneNumber(from);;
+            From = PhoneHelper.NormalizePhoneNumber(from);;
             return this;
         }
 
         public ITextMessage SetTo(string to)
         {
-            To = TwilioHelper.NormalizePhoneNumber(to);
+            To = PhoneHelper.NormalizePhoneNumber(to);
             return this;
         }
 
@@ -92,19 +95,19 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
                     messagingServiceSid: MessageServiceSid,
                     client: _innerClient); // pass in the custom client
 
-                return (TextMessageResponse) messageResponse;
+                return (TwilioTextMessageResponse) messageResponse;
             }
             catch (ApiException e)
             {
-                return TextMessageResponse.Failed(e.Message, e.MoreInfo, e.Code);
+                return TwilioTextMessageResponse.Failed(e.Message, e.MoreInfo, e.Code);
             }
 
         }
 
         private async Task<ITextMessageResponse> SendTestPhoneNumbersAsync(string from)
         {
-            TextMessageResponse messageResponse = null;
-            foreach (var to in TestPhoneNumbers.Select(TwilioHelper.NormalizePhoneNumber))
+            TwilioTextMessageResponse messageResponse = null;
+            foreach (var to in TestPhoneNumbers.Select(PhoneHelper.NormalizePhoneNumber))
             {
                 var twilioResponse = await MessageResource.CreateAsync(
                     new PhoneNumber(to),
@@ -113,7 +116,7 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage
                     messagingServiceSid: MessageServiceSid ?? MessageServiceSid,
                     client: _innerClient); // pass in the custom client
 
-                messageResponse = (TextMessageResponse) twilioResponse;
+                messageResponse = (TwilioTextMessageResponse) twilioResponse;
             }
 
 

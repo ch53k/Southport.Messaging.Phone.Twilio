@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Southport.Messaging.Phone.Core.Response;
 using Twilio.Rest.Api.V2010.Account;
-using Twilio.Types;
 
 namespace Southport.Messaging.Phone.Twilio.TextMessage.Response
 {
-    public class TextMessageResponse : ITextMessageResponse
+    public class TwilioTextMessageResponse : ITextMessageResponse
     {
 
-        public static explicit operator TextMessageResponse(MessageResource b) => new(b);
+        public static explicit operator TwilioTextMessageResponse(MessageResource b) => new(b);
 
-        TextMessageResponse(MessageResource messageResource)
+        TwilioTextMessageResponse(MessageResource messageResource)
         {
             Body = messageResource.Body;
             NumSegments = messageResource.NumSegments;
             Direction = messageResource.Direction.ToString();
-            From = messageResource.From;
+            From = messageResource.From.ToString();
             To = messageResource.To;
             DateUpdated = messageResource.DateUpdated;
             Price = messageResource.Price;
@@ -35,7 +35,7 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage.Response
             IsSuccessful = string.IsNullOrWhiteSpace(ErrorMessage);
         }
 
-        private TextMessageResponse(string message, string moreInfo, int errorCode)
+        private TwilioTextMessageResponse(string message, string moreInfo, int errorCode)
         {
             ErrorCode = errorCode;
             ErrorMessage = message;
@@ -45,13 +45,13 @@ namespace Southport.Messaging.Phone.Twilio.TextMessage.Response
 
         public static ITextMessageResponse Failed(string message, string moreInfo, int errorCode)
         {
-            return new TextMessageResponse(message, moreInfo, errorCode);
+            return new TwilioTextMessageResponse(message, moreInfo, errorCode);
         }
 
         public string Body { get; }
         public string NumSegments { get; }
         public DirectionEnum Direction { get; }
-        public PhoneNumber From { get; }
+        public string From { get; }
         public string To { get; }
         public DateTime? DateUpdated { get; }
         public string Price { get; }

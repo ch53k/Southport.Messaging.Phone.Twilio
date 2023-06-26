@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.AutoMoq;
-using Southport.Messaging.Phone.Twilio.TextMessage;
+using Southport.Messaging.Phone.Core.TextMessage;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -21,7 +21,7 @@ namespace Southport.Messaging.Phone.Twilio.Tests.TextMessaging
             fixture.Register(()=>options);
             fixture.Register(()=> new HttpClient());
 
-            TextMessage = fixture.Create<TextMessage.TextMessage>();
+            TextMessage = fixture.Create<TextMessage.TwilioTextMessage>();
             TextMessage.MessageServiceSid = null;
         }
 
