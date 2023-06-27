@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Southport.Messaging.Phone.Core.Shared;
 using Southport.Messaging.Phone.Twilio.Shared;
 using Twilio.Rest.Lookups.V1;
 using Twilio.Types;
@@ -7,13 +8,13 @@ using HttpClient = System.Net.Http.HttpClient;
 
 namespace Southport.Messaging.Phone.Twilio.Verifier
 {
-    public class PhoneNumberVerifier : TwilioClientBase, IPhoneNumberVerifier
+    public class TwilioPhoneNumberVerifier : TwilioClientBase, ITwilioPhoneNumberVerifier
     {
-        public PhoneNumberVerifier(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox) : base(httpClient, accountSid, apiKey, authToken, useSandbox)
+        public TwilioPhoneNumberVerifier(HttpClient httpClient, string accountSid, string apiKey, string authToken, bool useSandbox) : base(httpClient, accountSid, apiKey, authToken, useSandbox)
         {
         }
 
-        public PhoneNumberVerifier(HttpClient httpClient, ITwilioOptions options) : base(httpClient, options)
+        public TwilioPhoneNumberVerifier(HttpClient httpClient, ITwilioOptions options) : base(httpClient, options)
         {
         }
 
@@ -25,7 +26,7 @@ namespace Southport.Messaging.Phone.Twilio.Verifier
                 return null;
             }
 
-            phoneNumber = TwilioHelper.NormalizePhoneNumber(phoneNumber);
+            phoneNumber = PhoneHelper.NormalizePhoneNumber(phoneNumber);
             var types = new List<string>();
             switch (type)
             {
@@ -41,7 +42,9 @@ namespace Southport.Messaging.Phone.Twilio.Verifier
 
             }
 
-            return await PhoneNumberResource.FetchAsync(type: types, countryCode: countryCode, pathPhoneNumber: new PhoneNumber(phoneNumber), client: _innerClient);
+            var result = await PhoneNumberResource.FetchAsync(type: types, countryCode: countryCode, pathPhoneNumber: new PhoneNumber(phoneNumber), client: _innerClient);
+
+            return result;
         }
 
     }

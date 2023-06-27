@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using Southport.Messaging.Phone.Core.Shared;
 using Southport.Messaging.Phone.Twilio.Shared;
 using Xunit;
 
@@ -10,21 +10,21 @@ namespace Southport.Messaging.Phone.Twilio.Tests.Shared
         public void PhoneNumberNormalize_NoStart1()
         {
             var phoneNumber = "2035559874";
-            var normalizedPhoneNumber = TwilioHelper.NormalizePhoneNumber(phoneNumber);
+            var normalizedPhoneNumber = PhoneHelper.NormalizePhoneNumber(phoneNumber);
             Assert.Equal($"+1{phoneNumber}", normalizedPhoneNumber);
         }
         [Fact]
         public void PhoneNumberNormalize_NoStartPlus()
         {
             var phoneNumber = "12035559874";
-            var normalizedPhoneNumber = TwilioHelper.NormalizePhoneNumber(phoneNumber);
+            var normalizedPhoneNumber = PhoneHelper.NormalizePhoneNumber(phoneNumber);
             Assert.Equal($"+{phoneNumber}", normalizedPhoneNumber);
         }
         [Fact]
         public void PhoneNumberNormalize_StartPlus()
         {
             var phoneNumber = "+12035559874";
-            var normalizedPhoneNumber = TwilioHelper.NormalizePhoneNumber(phoneNumber);
+            var normalizedPhoneNumber = PhoneHelper.NormalizePhoneNumber(phoneNumber);
             Assert.Equal($"{phoneNumber}", normalizedPhoneNumber);
         }
 

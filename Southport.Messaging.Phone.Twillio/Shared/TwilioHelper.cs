@@ -5,23 +5,6 @@ namespace Southport.Messaging.Phone.Twilio.Shared
 {
     public static class TwilioHelper
     {
-        public static string NormalizePhoneNumber(string phoneNumber)
-        {
-            var startWithPlus = phoneNumber.StartsWith("+");
-            if (startWithPlus)
-            {
-                return phoneNumber;
-            }
-            
-            if (phoneNumber.StartsWith("1") == false)
-            {
-                return $"+1{phoneNumber}";
-                
-            }
-
-            return $"+{phoneNumber}";
-        }
-
         public static ITwilioWebhook ParseWebhook(string message)
         {
             if (string.IsNullOrWhiteSpace(message))

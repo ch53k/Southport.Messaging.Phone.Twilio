@@ -18,6 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Southport.Messaging.Phone.Core" Version="1.0.0-alpha1" />
     <PackageReference Include="Twilio" Version="6.0.1" />
   </ItemGroup>
 
@@ -27,5 +28,7 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+
+ 
 
 </Project>

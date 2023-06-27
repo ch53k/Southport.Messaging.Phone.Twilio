@@ -3,7 +3,7 @@ using Twilio.Rest.Lookups.V1;
 
 namespace Southport.Messaging.Phone.Twilio.Verifier
 {
-    public interface IPhoneNumberVerifier
+    public interface ITwilioPhoneNumberVerifier
     {
         Task<PhoneNumberResource> PhoneNumberLookupAsync(string phoneNumber, PhoneNumberLookupType type, string countryCode);
     }
